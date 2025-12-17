@@ -25,8 +25,8 @@ poetry install
 
 ### 2.1 WATCH_DIRECTORY 수정
 
-🚨 `jaso.py` 안에 `WATCH_DIRECTORY`를 **내가 자소분리를 자동으로 방지할 폴더**로 설정한다.
-나같은 경우는 "/Users/sungbooyoon"로 설정.
+🚨 `jaso.py` 안에 `WATCH_DIRECTORY`를 **내가 자소분리를 자동으로 방지할 폴더**로 설정. 
+나같은 경우는 "/Users/sungbooyoon"로 설정함.
 
 ### 2.2 터미널에서 정상 실행 확인
 
@@ -51,7 +51,7 @@ poetry run python jaso.py
 
 ### 3.3 Run Shell Script 내용
 
-🚨 `JASO_DIR` 를 git clone한 경로 (ex. "/Users/sungboo/jaso_fully_automated")로 변경한다.
+🚨 `JASO_DIR` 를 git clone한 경로 (ex. "/Users/sungboo/jaso_fully_automated")로 변경
 🚨 `#!/bin/zsh` 필요시 수정
 
 ```bash
@@ -77,7 +77,7 @@ exit 0
 
 ### 3.4 에러 로그 확인(선택)
 
-Automator에서 실행을 누르고, 터미널을 열고 아래 커맨드를 실행한다.
+Automator에서 실행을 누르고, 터미널을 열고 아래 커맨드 실행
 
 ```bash
 tail -n 50 ~/Library/Logs/jaso/stderr.log
