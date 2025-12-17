@@ -51,7 +51,7 @@ poetry run python jaso.py
 
 ### 3.3 Run Shell Script 내용
 
-🚨 `JASO_DIR` 를 git clone한 경로 (ex. "/Users/sungboo/jaso_fully_automated")로 변경
+🚨 `JASO_DIR` 를 git clone한 경로 (ex. "/Users/sungboo/jaso_fully_automated")로 변경 
 🚨 `#!/bin/zsh` 필요시 수정
 
 ```bash
