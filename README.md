@@ -93,8 +93,6 @@ tail -n 50 ~/Library/Logs/jaso/stderr.log
 
 시스템 설정 → 일반 → 로그인 항목 → `Jaso.app` 추가
 
----
-
 ## 참고 사이트
 
 - https://disquiet.io/@hsol/makerlog/%EB%A7%A5os-%ED%95%9C%EA%B8%80-%EC%9E%90%EC%86%8C%EB%B6%84%EB%A6%AC-%ED%98%84%EC%83%81-%EC%9E%90%EB%8F%99%EB%B3%80%ED%99%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-nfd-nfc
