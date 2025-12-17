@@ -18,7 +18,7 @@ git clone https://github.com/sungbooyoon/jaso_fully_automated.git
 cd jaso_fully_automated
 poetry init -n
 poetry add watchdog
-poetry install
+poetry install --no-root
 ```
 
 ## 2. 수동 실행 테스트
