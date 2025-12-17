@@ -21,8 +21,6 @@ poetry add watchdog
 poetry install
 ```
 
----
-
 ## 2. 수동 실행 테스트
 
 ### 2.1 WATCH_DIRECTORY 수정
@@ -38,8 +36,6 @@ poetry run python jaso.py
 
 - 에러 없이 실행되면 정상
 - 중지: `Ctrl + C`
-
----
 
 ## 3. 로그인 시 자동 실행 설정 (Automator)
 
@@ -92,8 +88,6 @@ tail -n 50 ~/Library/Logs/jaso/stderr.log
 ### 3.5 저장
 
 어플리케이션으로 저장 ex. `Jaso.app`
-
----
 
 ## 4. 로그인 항목(Login Item) 등록
 
