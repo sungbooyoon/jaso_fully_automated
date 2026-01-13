@@ -9,13 +9,28 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 
-WATCH_DIRECTORY = "" # ex. "/Users/sungbooyoon"
+WATCH_DIRECTORY = "" # ex "/Users/sungbooyoon"
 
+# Google Drive/CloudStorage 등의 임시/보호 경로에서 rename 시도 시 EPERM/EACCES가 자주 발생하므로 스킵
+SKIP_SUBSTRINGS = [
+    "/Library/CloudStorage/GoogleDrive-",
+    "/Library/CloudStorage/OneDrive",
+    "/Library/CloudStorage/Dropbox",
+    "/.tmp/",
+]
+
+
+def should_skip(path: str) -> bool:
+    return any(s in path for s in SKIP_SUBSTRINGS)
 
 def normalize_path(path: str):
     """
     파일 또는 폴더 이름을 NFC로 정규화
     """
+    # CloudStorage 임시/보호 경로는 건드리지 않음
+    if should_skip(path):
+        return
+
     if not os.path.lexists(path):
         return
 
@@ -35,6 +50,15 @@ def normalize_path(path: str):
     except FileExistsError:
         # 동일 이름 충돌 시 무시 (필요하면 (1) 붙이도록 확장 가능)
         pass
+    except PermissionError as e:
+        # CloudStorage/보호 폴더 등에서 흔한 케이스: 계속 감시가 돌도록 경고만 남기고 무시
+        print(f"[WARN] rename skipped (permission): {path} -> {e}")
+    except OSError as e:
+        # macOS/CloudStorage에서 흔한 케이스: Errno 1 (Operation not permitted), Errno 13 (Permission denied)
+        if getattr(e, "errno", None) in (1, 13):
+            print(f"[WARN] rename skipped (os): {path} -> {e}")
+        else:
+            print(f"[ERROR] rename failed: {path} -> {e}")
     except Exception as e:
         print(f"[ERROR] rename failed: {path} -> {e}")
 
@@ -64,12 +88,19 @@ class Handler(FileSystemEventHandler):
     """
 
     def on_created(self, event):
+        if should_skip(event.src_path):
+            return
         normalize_filenames_in_directory(event.src_path)
 
     def on_modified(self, event):
+        if should_skip(event.src_path):
+            return
         normalize_filenames_in_directory(event.src_path)
 
     def on_moved(self, event):
+        # moved 이벤트는 dest_path 기준으로 정규화
+        if should_skip(event.dest_path):
+            return
         normalize_filenames_in_directory(event.dest_path)
 
 

@@ -16,8 +16,11 @@
 cd ~
 git clone https://github.com/sungbooyoon/jaso_fully_automated.git
 cd jaso_fully_automated
-poetry init -n
-poetry add watchdog
+
+# 프로젝트 폴더 안에 .venv 를 고정 생성 (재부팅/로그인 후에도 경로가 안 바뀜)
+poetry config virtualenvs.in-project true --local
+
+# 의존성 설치
 poetry install --no-root
 ```
 
@@ -31,7 +34,7 @@ poetry install --no-root
 ### 2.2 터미널에서 정상 실행 확인
 
 ```bash
-poetry run python jaso.py
+./.venv/bin/python jaso.py
 ```
 
 - 에러 없이 실행되면 정상
@@ -52,23 +55,23 @@ poetry run python jaso.py
 ### 3.3 Run Shell Script 내용
 
 🚨 `JASO_DIR` 를 git clone한 경로 (ex. "/Users/sungboo/jaso_fully_automated")로 변경 
-🚨 `#!/bin/zsh` 필요시 수정
+🚨 Automator/로그인 항목은 쉘 환경(PATH 등)을 거의 로드하지 않으므로, `poetry run` 대신 **프로젝트 내부 .venv의 python을 직접 실행**하는 방식이 가장 안정적임.
 
 ```bash
-#!/bin/zsh # 필요시 수정
+#!/bin/zsh
 
 JASO_DIR="" # git clone한 경로 (ex. "/Users/sungboo/jaso_fully_automated")
-POETRY="/opt/homebrew/bin/poetry" # which poetry 로 확인한 경로
+VENV_PY="$JASO_DIR/.venv/bin/python"
 LOGDIR="$HOME/Library/Logs/jaso"
 
 mkdir -p "$LOGDIR"
 cd "$JASO_DIR" || exit 1
 
-if pgrep -f "python.*jaso.py" >/dev/null 2>&1; then
+if pgrep -f "jaso.py" >/dev/null 2>&1; then
   exit 0
 fi
 
-nohup "$POETRY" run python jaso.py \
+nohup "$VENV_PY" "$JASO_DIR/jaso.py" \
   >> "$LOGDIR/stdout.log" \
   2>> "$LOGDIR/stderr.log" &
 
