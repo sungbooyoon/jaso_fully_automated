@@ -11,11 +11,7 @@ from watchdog.observers import Observer
 
 WATCH_DIRECTORY = "" # ex "/Users/sungbooyoon"
 
-# Google Drive/CloudStorage 등의 임시/보호 경로에서 rename 시도 시 EPERM/EACCES가 자주 발생하므로 스킵
 SKIP_SUBSTRINGS = [
-    "/Library/CloudStorage/GoogleDrive-",
-    "/Library/CloudStorage/OneDrive",
-    "/Library/CloudStorage/Dropbox",
     "/.tmp/",
 ]
 
